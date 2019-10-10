@@ -1,31 +1,41 @@
 # TO-DO: complete the helper function below to merge 2 sorted arrays
 def merge( arrA, arrB ):
-    merged_arr = []
-    A = 0
-    B = 0
-
-    while A < len(arrA) and B < len(arrB):
-        if arrA[A] < arrB[B]:
-            merged_arr.append(arrA[A])
-            A += 1
-        else:
-            merged_arr.append(arrB[B])
-
-    merged_arr.extend(arrA[A:])
-    merged_arr.extend(arrB[B:])
-    
+ # Create a new, array of length len(arrA) + len(arrB)
+    elements = len(arrA) + len(arrB)
+    merged_arr = [0] * elements
+    # Create markers for a and b starting at 0
+    a = 0
+    b = 0
+    # While a and b are less than the length of the arrA and arrB respectively
+    for i in range(0, elements):
+        # Compare the items at indices a/b, add the smallest to the merged array
+        # Increment a/b, whichever was smallest
+        if a >= len(arrA):
+            merged_arr[i] = arrB[b]
+            b += 1
+        elif b >= len(arrB):
+            merged_arr[i] = arrA[a]
+            a += 1
+        elif arrA[a] < arrB[b]:
+            merged_arr[i] = arrA[a]
+            a += 1
+        else:  # arrA[a] >= arrB[b]
+            merged_arr[i] = arrB[b]
+            b += 1
     return merged_arr
 
 
 # TO-DO: implement the Merge Sort function below USING RECURSION
 def merge_sort( arr ):
+    # base case: if len(arr) is 0 or 1 then return arr
     if len(arr) <= 1:
         return arr
-
-    arrA = merge_sort(arr[:len(arr)//2])
-    arrB = merge_sort(arr[len(arr)//2:])
-
-    return merge(arrA, arrB)
+    else:
+        # split the list in half and sort each
+        arrA = merge_sort(arr[:len(arr)//2])
+        arrB = merge_sort(arr[len(arr)//2:])
+        # merge sorted halves
+        return merge(arrA, arrB)
 
 
 
